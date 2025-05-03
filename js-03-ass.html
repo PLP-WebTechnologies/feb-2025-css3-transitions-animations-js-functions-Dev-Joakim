@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Preferences with Animation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      transition: background-color 1s ease, color 1s ease;
+    }
+    
+    .light-mode {
+      background-color: #ffffff;
+      color: #000000;
+    }
+    
+    .dark-mode {
+      background-color: #333333;
+      color: #ffffff;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      transition: transform 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    button:active {
+      transform: scale(1);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Toggle Theme</h1>
+  <button id="themeToggleBtn">Switch to Dark Mode</button>
+
+  <script>
+    // Function to retrieve the user's saved theme preference
+    function loadUserPreferences() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.body.classList.add(savedTheme);
+        document.getElementById('themeToggleBtn').textContent = 
+          savedTheme === 'dark-mode' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+      } else {
+        document.body.classList.add('light-mode');
+        document.getElementById('themeToggleBtn').textContent = 'Switch to Dark Mode';
+      }
+    }
+
+    // Function to toggle theme and store user preference
+    function toggleTheme() {
+      const currentTheme = document.body.classList.contains('light-mode') ? 'light-mode' : 'dark-mode';
+      const newTheme = currentTheme === 'light-mode' ? 'dark-mode' : 'light-mode';
+
+      document.body.classList.remove(currentTheme);
+      document.body.classList.add(newTheme);
+
+      localStorage.setItem('theme', newTheme);  // Save preference
+
+      document.getElementById('themeToggleBtn').textContent = 
+        newTheme === 'dark-mode' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+    }
+
+    // Event listener for button click to toggle theme
+    document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
+
+    // Load user preferences on page load
+    window.onload = loadUserPreferences;
+
+  </script>
+
+</body>
+</html>
